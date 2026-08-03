@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drake — Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#141210;
+    --paper:#eee9e1;
+    --amber:#b8863b;
+    --line:rgba(238,233,225,0.16);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Work Sans', sans-serif;
+    font-weight:300;
+    line-height:1.6;
+  }
+  h1,h2,h3,.serif{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:500;
+    letter-spacing:0.01em;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:1.6rem 5vw;
+    z-index:50;
+    mix-blend-mode:difference;
+  }
+  header .name{
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.3rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+  }
+  header nav a{
+    color:var(--paper);
+    text-decoration:none;
+    font-size:0.78rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    margin-left:2.2rem;
+  }
+  header nav a:hover{ color:var(--amber); }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex; flex-direction:column; justify-content:flex-end;
+    padding:0 5vw 6vh 5vw;
+    position:relative;
+    border-bottom:1px solid var(--line);
+    background:
+      linear-gradient(180deg, rgba(20,18,16,0.2), rgba(20,18,16,0.85)),
+      repeating-linear-gradient(115deg, #1c1a17 0px, #1c1a17 2px, #17150f 2px, #17150f 4px);
+  }
+  .hero-eyebrow{
+    font-size:0.78rem;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    color:var(--amber);
+    margin-bottom:1.2rem;
+  }
+  .hero h1{
+    font-size:clamp(3rem, 10vw, 7.5rem);
+    line-height:0.95;
+  }
+  .hero p{
+    max-width:36ch;
+    margin-top:1.5rem;
+    color:rgba(238,233,225,0.72);
+    font-size:1.02rem;
+  }
+
+  /* ---------- Section labels ---------- */
+  .section-head{
+    display:flex; align-items:baseline; gap:1rem;
+    padding:5rem 5vw 2rem 5vw;
+    border-top:1px solid var(--line);
+  }
+  .section-head .tag{
+    font-size:0.75rem;
+    letter-spacing:0.25em;
+    text-transform:uppercase;
+    color:var(--amber);
+  }
+  .section-head h2{
+    font-size:2.2rem;
+  }
+
+  /* ---------- Gallery ---------- */
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:2px;
+    padding:0 5vw 6rem 5vw;
+  }
+  @media(max-width:800px){
+    .gallery{ grid-template-columns:repeat(2, 1fr); }
+  }
+  @media(max-width:520px){
+    .gallery{ grid-template-columns:1fr; }
+  }
+  .frame{
+    position:relative;
+    aspect-ratio:4/5;
+    overflow:hidden;
+    background:#1e1c19;
+  }
+  .frame img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+    filter:grayscale(15%) contrast(1.03);
+    transition:transform 0.7s ease;
+  }
+  .frame:hover img{ transform:scale(1.05); }
+  .frame.empty{
+    display:flex; align-items:center; justify-content:center;
+    color:rgba(238,233,225,0.35);
+    font-size:0.8rem;
+    letter-spacing:0.1em;
+    text-align:center;
+    padding:1rem;
+    border:1px dashed var(--line);
+  }
+
+  /* watermark: tiled diagonal text over every photo */
+  .frame .watermark{
+    position:absolute; inset:0;
+    pointer-events:none;
+    display:flex; flex-wrap:wrap; align-content:space-around; justify-content:space-around;
+    transform:rotate(-30deg) scale(1.4);
+    opacity:0.5;
+  }
+  .frame .watermark span{
+    font-family:'Cormorant Garamond', serif;
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    color:rgba(238,233,225,0.55);
+    text-transform:uppercase;
+    text-shadow:0 1px 2px rgba(0,0,0,0.6);
+    white-space:nowrap;
+  }
+  .frame .caption{
+    position:absolute; left:0; right:0; bottom:0;
+    padding:0.7rem 0.9rem;
+    font-size:0.75rem;
+    letter-spacing:0.05em;
+    color:rgba(238,233,225,0.85);
+    background:linear-gradient(0deg, rgba(0,0,0,0.55), transparent);
+  }
+
+  /* ---------- About ---------- */
+  .about{
+    padding:6rem 5vw;
+    border-top:1px solid var(--line);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:3rem;
+  }
+  @media(max-width:800px){ .about{ grid-template-columns:1fr; } }
+  .about h2{ font-size:2.4rem; margin-bottom:1.2rem; }
+  .about p{ color:rgba(238,233,225,0.72); max-width:52ch; }
+
+  /* ---------- Contact / Footer ---------- */
+  footer{
+    padding:5rem 5vw 3rem 5vw;
+    border-top:1px solid var(--line);
+    display:flex; flex-wrap:wrap; justify-content:space-between; gap:2rem;
+  }
+  footer h2{ font-size:2.4rem; margin-bottom:0.8rem; }
+  footer a.email{
+    color:var(--amber);
+    text-decoration:none;
+    font-size:1.1rem;
+    border-bottom:1px solid var(--amber);
+  }
+  .socials{ display:flex; flex-direction:column; gap:0.5rem; align-self:flex-end; }
+  .socials a{
+    color:rgba(238,233,225,0.75);
+    text-decoration:none;
+    font-size:0.85rem;
+    letter-spacing:0.05em;
+  }
+  .socials a:hover{ color:var(--amber); }
+  .fine-print{
+    width:100%;
+    margin-top:3rem;
+    padding-top:1.5rem;
+    border-top:1px solid var(--line);
+    font-size:0.72rem;
+    letter-spacing:0.05em;
+    color:rgba(238,233,225,0.4);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="name">Drake</div>
+  <nav>
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow">Photography</div>
+  <h1>Drake</h1>
+  <p>Frames from the field — every image on this page is protected with a watermark, so browse freely.</p>
+</section>
+
+<section id="work">
+  <div class="section-head">
+    <span class="tag">01</span>
+    <h2>Recent Work</h2>
+  </div>
+
+  <div class="gallery">
+    <!--
+      HOW TO ADD A PHOTO:
+      1. Upload your image file into this same GitHub repository (drag & drop on the repo page).
+      2. Replace src="photo1.jpg" below with your file's exact name.
+      3. Change the caption text if you'd like.
+      4. Copy one of these <div class="frame"> blocks for each new photo.
+    -->
+    <div class="frame">
+      <img src="photo1.jpg" alt="Photo by Drake">
+      <div class="watermark">
+        <span>© DRAKE</span><span>© DRAKE</span><span>© DRAKE</span>
+        <span>© DRAKE</span><span>© DRAKE</span><span>© DRAKE</span>
+        <span>© DRAKE</span><span>© DRAKE</span><span>© DRAKE</span>
+      </div>
+      <div class="caption">Untitled — Photo 1</div>
+    </div>
+
+    <div class="frame">
+      <img src="photo2.jpg" alt="Photo by Drake">
+      <div class="watermark">
+        <span>© DRAKE</span><span>© DRAKE</span><span>© DRAKE</span>
+        <span>© DRAKE</span><span>© DRAKE</span><span>© DRAKE</span>
+        <span>© DRAKE</span><span>© DRAKE</span><span>© DRAKE</span>
+      </div>
+      <div class="caption">Untitled — Photo 2</div>
+    </div>
+
+    <div class="frame">
+      <img src="photo3.jpg" alt="Photo by Drake">
+      <div class="watermark">
+        <span>© DRAKE</span><span>© DRAKE</span><span>© DRAKE</span>
+        <span>© DRAKE</span><span>© DRAKE</span><span>© DRAKE</span>
+        <span>© DRAKE</span><span>© DRAKE</span><span>© DRAKE</span>
+      </div>
+      <div class="caption">Untitled — Photo 3</div>
+    </div>
+
+    <!-- Empty placeholder frames — delete these once you add real photos -->
+    <div class="frame empty">Add photo4.jpg<br>and copy a frame block</div>
+    <div class="frame empty">Add photo5.jpg<br>and copy a frame block</div>
+    <div class="frame empty">Add photo6.jpg<br>and copy a frame block</div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <h2>About</h2>
+  <p>
+    I'm Drake — this is where I share my photography. Every shot here carries
+    my watermark, so feel free to look around, but the images stay mine.
+    Follow along for new work, or reach out below if you'd like to work together.
+  </p>
+</section>
+
+<footer id="contact">
+  <div>
+    <h2>Get in touch</h2>
+    <a class="email" href="mailto:youremail@example.com">youremail@example.com</a>
+  </div>
+  <div class="socials">
+    <a href="https://instagram.com/yourhandle" target="_blank">Instagram</a>
+  </div>
+  <div class="fine-print">
+    © <span id="year"></span> Drake Photography. All images watermarked and protected.
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
